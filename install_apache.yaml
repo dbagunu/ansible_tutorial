@@ -4,15 +4,36 @@
   become: true
   tasks:
 
+  # For Debian based distribution
   - name: Update repository index
     ansible.builtin.apt:
       update_cache: yes
+    when: ansible_distribution in ["Debian", "Ubuntu"]
 
   - name: Install apache2 package
     ansible.builtin.apt:
       name: apache2
       state: present
+    when: ansible_distribution in ["Debian", "Ubuntu"]
 
   - name: add php support for apache
     ansible.builtin.apt:
       name: libapache2-mod-php
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+
+  # For Redhat based distribution
+  - name: Update repository index
+    ansible.builtin.dnf:
+      update_cache: yes
+    when: ansible_distribution in ["RHEL", "CentOS"]
+
+  - name: Install apache2 package
+    ansible.builtin.dnf:
+      name: httpd
+      state: present
+    when: ansible_distribution in ["RHEL", "CentOS"]
+
+  - name: add php support for apache
+    ansible.builtin.dnf:
+      name: php
+    when: ansible_distribution in ["RHEL", "CentOS"]
