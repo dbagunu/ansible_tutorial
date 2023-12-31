@@ -5,35 +5,21 @@
   tasks:
 
   # For Debian based distribution
-  - name: Update repository index for Ubuntu
+  - name: Install apache and php packages for Ubuntu
     ansible.builtin.apt:
+      name: 
+        - apache2
+        - libapache2-mod-php
+      state: latest
       update_cache: yes
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
-  - name: Install apache2 package for Ubuntu
-    ansible.builtin.apt:
-      name: apache2
-      state: present
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
-  - name: add php support for apache for Ubuntu
-    ansible.builtin.apt:
-      name: libapache2-mod-php
     when: ansible_distribution in ["Debian", "Ubuntu"]
 
   # For Redhat based distribution
-  - name: Update repository index for CentOS
-    ansible.builtin.dnf:
-      update_cache: yes
-    when: ansible_distribution in ["RHEL", "CentOS"]
-
   - name: Install apache2 package for CentOS
     ansible.builtin.dnf:
-      name: httpd
+      name:
+        - httpd
+        - php
       state: present
-    when: ansible_distribution in ["RHEL", "CentOS"]
-
-  - name: add php support for apache for CentOS
-    ansible.builtin.dnf:
-      name: php
+      update_cache: yes
     when: ansible_distribution in ["RHEL", "CentOS"]
