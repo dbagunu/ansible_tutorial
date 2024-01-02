@@ -1,2 +1,4 @@
 mariadb_package_name: mariadb-server
 mariadb_service_name: mariadb
+ssh_users: 'vagrant simone'
+ssh_template_file: sshd_config_ubuntu.j2
