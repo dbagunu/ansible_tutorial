@@ -1,11 +1,17 @@
-- name: Install apache2 and php package for Ubuntu
+- name: Install apache and php packages
   tags: apache,apache2,ubuntu
   ansible.builtin.apt:
     name:
-      - apache2
-      - libapache2-mod-php
+      - "{{ apache_package_name }}"
+      - "{{ php_package_name }}"
     state: latest
-  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: Start and Enable apache service
+  tags: apache,apache2,httpd
+  service:
+    name: "{{ apache_service }}"
+    state: started
+    enabled: yes
 
 - name: Copy default html file for site
   tags: apache,apache2,ubuntu
